@@ -1,13 +1,22 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import styles from '../styles/Home.module.css';
+import BackToHomeBtn from './buttons/BackToHomeBtn';
 
 interface LayoutProps {
   children?: ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
+  const router = useRouter();
+  const [isHomepage, setIsHomepage] = useState(router.pathname === '/');
+
+  useEffect(() => {
+    setIsHomepage(router.pathname === '/');
+  }, [router.pathname]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -19,6 +28,7 @@ const Layout = ({ children }: LayoutProps) => {
           rel="stylesheet"
         />
       </Head>
+      {!isHomepage && <BackToHomeBtn />}
 
       <main className={styles.main}>{children}</main>
 
