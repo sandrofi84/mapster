@@ -14,3 +14,10 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.marker-ctrl {
+  background-position: center;
+  background-size: 15px;
+  background-repeat: no-repeat;
+  background-image: url('../public/marker.svg');
+}
