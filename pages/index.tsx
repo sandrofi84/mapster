@@ -6,6 +6,7 @@ const Home: NextPage = () => {
   return (
     <>
       <h1 className={styles.title}>Welcome to Mapster!</h1>
+      <h3>Deployed to S3 with a Github Action!</h3>
 
       <div className={styles.grid}>
         <Link href="/events">
