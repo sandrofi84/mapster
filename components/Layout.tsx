@@ -1,6 +1,5 @@
 import React, { ReactNode, useState, useEffect } from 'react';
 import Head from 'next/head';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import styles from '../styles/Home.module.css';
 import BackToHomeBtn from './buttons/BackToHomeBtn';
@@ -39,14 +38,9 @@ const Layout = ({ children }: LayoutProps) => {
           rel="noopener noreferrer"
         >
           Powered by{' '}
-          <span className={styles.logo}>
-            <Image
-              src="/sandrofi-logo.svg"
-              alt="Sandrofi Logo"
-              width={72}
-              height={16}
-            />
-          </span>
+          <div className={styles.logo}>
+            <img src="/sandrofi-logo.svg" alt="Sandrofi Logo" />
+          </div>
         </a>
       </footer>
     </div>

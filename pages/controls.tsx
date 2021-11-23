@@ -1,25 +1,12 @@
 import type { NextPage } from 'next';
-import { useEffect, useState, useRef, useMemo } from 'react';
+import { useEffect } from 'react';
 import useMap from '../hooks/useMap';
-import {
-  Typography,
-  Paper,
-  Theme,
-  Grid,
-  Alert,
-  AlertTitle,
-  AlertColor,
-  Badge,
-} from '@mui/material';
-import { makeStyles, createStyles } from '@mui/styles';
+import { Typography } from '@mui/material';
 import MapContainer from '../components/MapContainer';
 import mapboxgl from 'mapbox-gl';
 import MarkerControl from '../controls/markerControl';
 
-const useStyles = makeStyles((theme: Theme) => createStyles({}));
-
 const Controls: NextPage = () => {
-  const classes = useStyles();
   const { map, mapContainer, isMapInitialized } = useMap();
 
   useEffect(() => {

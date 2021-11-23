@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start",
     "lint": "next lint"
   },
@@ -14,6 +14,7 @@
     "@mui/icons-material": "^5.0.5",
     "@mui/material": "^5.0.6",
     "@mui/styles": "^5.0.2",
+    "@types/mapbox": "^1.6.42",
     "@types/mapbox-gl": "^2.4.2",
     "mapbox-gl": "^2.5.1",
     "next": "12.0.1",

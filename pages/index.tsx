@@ -30,12 +30,6 @@ const Home: NextPage = () => {
             <h2>Clustering &rarr;</h2>
           </a>
         </Link>
-
-        <Link href="/callouts">
-          <a className={styles.card}>
-            <h2>Callouts &rarr;</h2>
-          </a>
-        </Link>
       </div>
     </>
   );

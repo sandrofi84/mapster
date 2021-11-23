@@ -1,21 +1,18 @@
 import type { NextPage } from 'next';
 import { useEffect, useCallback } from 'react';
 import useMap from '../hooks/useMap';
-import { Typography, Theme } from '@mui/material';
-import { makeStyles, createStyles } from '@mui/styles';
+import { Typography } from '@mui/material';
 import MapContainer from '../components/MapContainer';
-
-const useStyles = makeStyles((theme: Theme) => createStyles({}));
+import { GeoJSONSource, LngLatLike, MapboxEvent, EventData } from 'mapbox-gl';
 
 const Clustering: NextPage = () => {
-  const classes = useStyles();
   const { map, mapContainer, isMapInitialized } = useMap();
 
   const getDatasource = useCallback(async () => {
     let datasource;
     try {
       datasource = await fetch(
-        `${process.env.API_URL}/get_map_datasource`
+        `${process.env.NEXT_PUBLIC_API_URL}/get_map_datasource`
       ).then((response) => response.json());
       return datasource;
     } catch (e) {
@@ -25,7 +22,7 @@ const Clustering: NextPage = () => {
   }, []);
 
   useEffect(() => {
-    const handleMapLoad = async (e) => {
+    const handleMapLoad = async (e: MapboxEvent<undefined> & EventData) => {
       const map = e.target;
       const datasource = await getDatasource();
       console.log(datasource);
@@ -105,17 +102,17 @@ const Clustering: NextPage = () => {
         const features = map.queryRenderedFeatures(e.point, {
           layers: ['clusters'],
         });
-        const clusterId = features[0].properties.cluster_id;
-        map
-          .getSource('users')
-          .getClusterExpansionZoom(clusterId, (err, zoom) => {
-            if (err) return;
+        const clusterId = features[0]?.properties?.cluster_id;
+        const userSource = map.getSource('users') as GeoJSONSource;
+        userSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
+          if (err) return;
 
-            map.easeTo({
-              center: features[0].geometry.coordinates,
-              zoom: zoom,
-            });
+          map.easeTo({
+            center: (features[0].geometry as GeoJSON.Point)
+              .coordinates as LngLatLike,
+            zoom: zoom,
           });
+        });
       });
     };
 

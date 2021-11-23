@@ -1,10 +1,10 @@
 import { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 
-mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN as string;
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN as string;
 
 const useMap = () => {
-  const mapContainer = useRef<string | HTMLElement>('');
+  const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<null | mapboxgl.Map>(null);
   const [lng, setLng] = useState(-70.9);
   const [lat, setLat] = useState(42.35);
@@ -14,7 +14,7 @@ const useMap = () => {
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
-      container: mapContainer.current,
+      container: mapContainer.current || '',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [lng, lat],
       zoom: zoom,

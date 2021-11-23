@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { makeStyles, createStyles } from '@mui/styles';
 import MapContainer from '../components/MapContainer';
+import { MapboxEvent, EventData } from 'mapbox-gl';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -51,8 +52,10 @@ interface CardsData {
   error: CardState;
 }
 
+type CardType = keyof CardsData;
+
 interface EventCard {
-  type: string;
+  type: CardType;
   message: string;
   severity: AlertColor;
 }
@@ -107,20 +110,22 @@ const Events: NextPage = () => {
   );
 
   useEffect(() => {
-    const logEvent = (type: string) => (e) => {
-      console.log(e);
-      setCardsData((prev): CardsData => {
-        for (let cardType in prev) {
-          if (prev[cardType].isOpaque) prev[cardType].isOpaque = false;
-        }
-        prev[type].counter++;
-        prev[type].isOpaque = true;
+    const logEvent =
+      (type: CardType) => (e: MapboxEvent<undefined> & EventData) => {
+        console.log(e);
+        setCardsData((prev): CardsData => {
+          for (let cardType in prev) {
+            if ((prev[cardType as CardType] as CardState).isOpaque)
+              (prev[cardType as CardType] as CardState).isOpaque = false;
+          }
+          prev[type].counter++;
+          prev[type].isOpaque = true;
 
-        return {
-          ...prev,
-        };
-      });
-    };
+          return {
+            ...prev,
+          };
+        });
+      };
 
     const handleLoad = logEvent('load');
     const handleIdle = logEvent('idle');

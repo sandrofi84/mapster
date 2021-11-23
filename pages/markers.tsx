@@ -1,25 +1,12 @@
 import type { NextPage } from 'next';
-import { useEffect, useState, useRef, useMemo, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import useMap from '../hooks/useMap';
-import {
-  Typography,
-  Paper,
-  Theme,
-  Grid,
-  Alert,
-  AlertTitle,
-  AlertColor,
-  Badge,
-} from '@mui/material';
-import { makeStyles, createStyles } from '@mui/styles';
+import { Typography } from '@mui/material';
 import MapContainer from '../components/MapContainer';
-import mapboxgl, { Evented, MapboxEvent, MapEventType } from 'mapbox-gl';
+import mapboxgl, { Map, MapboxEvent, Marker } from 'mapbox-gl';
 import Pin from '../public/pin.svg';
 
-const useStyles = makeStyles((theme: Theme) => createStyles({}));
-
 const Markers: NextPage = () => {
-  const classes = useStyles();
   const { map, mapContainer, isMapInitialized } = useMap();
   const markers = useRef([]);
 
@@ -34,7 +21,7 @@ const Markers: NextPage = () => {
         body: JSON.stringify({ boundingBox }),
       };
       users = await fetch(
-        `${process.env.API_URL}/get_users_by_coord`,
+        `${process.env.NEXT_PUBLIC_API_URL}/get_users_by_coord`,
         options
       ).then((response) => response.json());
       return users;
@@ -59,7 +46,7 @@ const Markers: NextPage = () => {
           new mapboxgl.Popup({ offset: 25 }) // add popups
             .setHTML(`<h3>${user.name}</h3><p>Age: ${user.age}</p>`)
         )
-        .addTo(map);
+        .addTo(map as Map);
       return myMarker;
     },
     [map]
@@ -74,7 +61,7 @@ const Markers: NextPage = () => {
 
   const removeCurrentMarkers = useCallback((markers) => {
     if (markers.length > 0) {
-      markers.forEach((marker) => marker.remove());
+      markers.forEach((marker: Marker) => marker.remove());
       markers = [];
     }
   }, []);
@@ -86,14 +73,11 @@ const Markers: NextPage = () => {
       const boundingBox = map.getBounds().toArray();
       const users = await getUsersWithinBoundingBox(boundingBox);
       removeCurrentMarkers(markers.current);
-      const newMarkers = makeMarkers(users);
+      const newMarkers = users ? makeMarkers(users) : [];
       markers.current = newMarkers;
     };
 
-    const debounce = (
-      fn: (...args: unknown[] | []) => Promise<void>,
-      delay = 500
-    ) => {
+    const debounce = <T extends Function>(fn: T, delay = 500) => {
       let timer: NodeJS.Timeout;
       return (...args: unknown[] | []) => {
         clearTimeout(timer);

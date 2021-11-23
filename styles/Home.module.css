@@ -109,8 +109,14 @@
 }
 
 .logo {
+  width: 30px;
   height: 1em;
   margin-left: 0.5rem;
+}
+
+.logo img {
+  width: 30px;
+  height: 1em;
 }
 
 @media (max-width: 600px) {
