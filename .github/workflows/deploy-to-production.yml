@@ -14,8 +14,8 @@ jobs:
     uses: sandrofi84/mapster/.github/workflows/deploy.yml@master
     with:
       bucket-name: mapster-bucket-production
-      distribution-id: E1LFHTSXSANKRS
     secrets:
       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       mapster-env-production: ${{ secrets.MAPSTER_ENV_PRODUCTION }}
+      distribution-id: ${{ secrets.MAPSTER_DISTRIBUTION_ID }}
