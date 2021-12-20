@@ -48,5 +48,5 @@ jobs:
           aws-region: eu-west-2
       - run: aws s3 sync ./out s3://${{ inputs.bucket-name }} --delete
       - name: Invalidate Cloudfront Cache
-        if: ${{ ${{inputs.distribution-id}} }}
+        if: inputs.distribution-id
         run: echo "distribution ID is ${{ inputs.distribution-id }}"
