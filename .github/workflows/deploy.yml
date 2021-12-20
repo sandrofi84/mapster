@@ -47,5 +47,5 @@ jobs:
           aws-region: eu-west-2
       - run: aws s3 sync ./out s3://${{ inputs.bucket-name }} --delete
       - name: Invalidate Cloudfront Cache
-        if: secrets.distribution-id && true
+        if: ${{ secrets.distribution-id }} && true
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.distribution-id }} --paths "/*"
