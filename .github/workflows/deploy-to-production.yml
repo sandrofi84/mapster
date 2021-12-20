@@ -1,0 +1,21 @@
+name: Deploy to Development
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  #push:
+  #  branches: [master]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  # This workflow contains a single job called "deploy-dev-resources" that calls a reusable workflow specifying an input 'env'
+  deploy-to-dev:
+    uses: sandrofi84/mapster/.github/workflows/deploy.yml@master
+    with:
+      bucket-name: mapster-bucket-production
+      distribution-id: E1LFHTSXSANKRS
+    secrets:
+      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      mapster-env-production: ${{ secrets.MAPSTER_ENV_PRODUCTION }}
