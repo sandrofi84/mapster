@@ -49,4 +49,4 @@ jobs:
       - run: aws s3 sync ./out s3://${{ inputs.bucket-name }} --delete
       - name: Invalidate Cloudfront Cache
         if: ${{ inputs.distribution-id && true }}
-        run: echo "distribution ID is ${{ inputs.distribution-id }}"
+        run: aws cloudfront create-invalidation --distribution-id ${{ inputs.distribution-id }} --paths "/*"
