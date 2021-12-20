@@ -1,4 +1,4 @@
-name: Deploy to Development
+name: Deploy to Production
 
 # Controls when the workflow will run
 on:
@@ -9,8 +9,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  # This workflow contains a single job called "deploy-dev-resources" that calls a reusable workflow specifying an input 'env'
-  deploy-to-dev:
+  # This workflow contains a single job called "deploy-to-prod" that calls a reusable workflow
+  deploy-to-prod:
     uses: sandrofi84/mapster/.github/workflows/deploy.yml@master
     with:
       bucket-name: mapster-bucket-production

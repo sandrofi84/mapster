@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  # This workflow contains a single job called "deploy-dev-resources" that calls a reusable workflow specifying an input 'env'
+  # This workflow contains a single job called "deploy-to-dev" that calls a reusable workflow
   deploy-to-dev:
     uses: sandrofi84/mapster/.github/workflows/deploy.yml@master
     with:
